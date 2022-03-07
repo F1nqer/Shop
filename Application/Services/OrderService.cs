@@ -25,18 +25,15 @@ namespace Application.Services
             order.OrderId = orderModel.Id;
             order.CardNumber = orderModel.CardNumber;
             order.State = orderModel.State.Name;
-            foreach(Product p in orderModel.Products)
+            List<ProductForOrder> productsForOrder = orderModel.Products.Select(p => new ProductForOrder
             {
-                ProductForOrder product = new ProductForOrder();
-                if(!order.Products.Exists(o => o.ProductId == p.Id))
-                {
-                    product.ProductId = p.Id;
-                    product.Name = p.Name;
-                    product.PriceSum = orderModel.Products.Where(pr => pr.Id == p.Id).Sum(pr => p.Price);
-                    product.Count = orderModel.Products.Where(pr => pr.Id == p.Id).Count();
-                    order.Products.Add(product);
-                }   
-            }
+                Name = p.Name,
+                ProductId = p.Id,
+                PriceSum = orderModel.Products.Where(pr => pr.Id == p.Id).Sum(pr => p.Price),
+                Count = orderModel.Products.Where(pr => pr.Id == p.Id).Count()
+            }).Distinct().ToList();
+            order.Products = productsForOrder;
+            
             return order; 
         }
 

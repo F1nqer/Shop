@@ -35,7 +35,7 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddProductToOrder(int productId)
+        public async Task<ActionResult> AddProductToOrder(int productId)
         {
             if (productId < 1)
             {
@@ -46,8 +46,8 @@ namespace ShopApi.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<ProductForList>> RemoveProductFromOrder(int productId)
+        [HttpDelete]
+        public async Task<ActionResult> RemoveProductFromOrder(int productId)
         {
             if (productId < 1)
             {
@@ -59,7 +59,7 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<OrderActive>> BuyOrder (OrderActive orderActive)
+        public async Task<ActionResult> BuyOrder (OrderActive orderActive)
         {
             if (orderActive == null)
             {
@@ -70,7 +70,7 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> DoneOrder(OrderActive orderActive)
+        public async Task<ActionResult> DoneOrder(OrderActive orderActive)
         {
             if (orderActive == null)
             {
