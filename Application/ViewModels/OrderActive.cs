@@ -12,7 +12,7 @@ namespace Application.ViewModels
         public string Address { get; set; }
         public int CardNumber { get; set; }
         public string State { get; set; }
-        public List<ProductForOrder> Products {get; set;}
+        public List<ProductForOrder> Products { get; set; } = new List<ProductForOrder>();
 
     }
 }

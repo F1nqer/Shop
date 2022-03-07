@@ -72,12 +72,12 @@ namespace Application.Services
             foreach(Product p in order.Products)
             {
                 ProductForOrder product = new ProductForOrder();
+                product.Count = order.Products.Where(pr => pr.Id == p.Id).Count();
                 if (!orderFull.Products.Exists(o => o.ProductId == p.Id))
                 {
                     product.ProductId = p.Id;
                     product.Name = p.Name;
                     product.PriceSum = order.Products.Where(pr => pr.Id == p.Id).Sum(pr => p.Price);
-                    product.Count = order.Products.Where(pr => pr.Id == p.Id).Count();
                     orderFull.Products.Add(product);
                 }
             }
@@ -117,11 +117,21 @@ namespace Application.Services
 
             
         }
-        public void BuyOrder()
+        public void BuyOrder(OrderActive orderActive)
         {
-            Order order = db.Orders.GetActive();
-            order.State = db.Orders.GetOrderStates().Where(s => s.Code == "Active").First();
-            db.Orders.Update(order);
+            Order order = db.Orders.GetById(orderActive.OrderId);
+            order.CardNumber = orderActive.CardNumber;
+            order.Address = orderActive.Address;
+            order.State = db.Orders.GetOrderStates().Where(s => s.Code == "Buyed").First();
+            db.Save();
+        }
+
+        public void DoneOrder(OrderActive orderActive)
+        {
+            Order order = db.Orders.GetById(orderActive.OrderId);
+            order.CardNumber = orderActive.CardNumber;
+            order.Address = orderActive.Address;
+            order.State = db.Orders.GetOrderStates().Where(s => s.Code == "Done").First();
             db.Save();
         }
         public void AddProductToOrder(int productId)

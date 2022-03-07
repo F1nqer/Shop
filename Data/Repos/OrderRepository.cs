@@ -72,8 +72,8 @@ namespace Data.Repos
         
         public void AddProduct(Order order, int productId)
         {
-            order.Products.Remove(db.Products.Find(productId));
-            db.Update(order);
+            order.Products.Add(db.Products.Find(productId));
+            db.SaveChanges();
         }
 
         //Update and change actins
@@ -84,8 +84,9 @@ namespace Data.Repos
         public void ChangeState(Order order, State state)
         {
             order.State = state;
-            db.Update(order);
+            db.SaveChanges();
         }
+
 
         //Delete actions
         public void Delete(int id)
@@ -93,11 +94,12 @@ namespace Data.Repos
             Order order = db.Orders.Find(id);
             if (order != null)
                 db.Orders.Remove(order);
+            db.SaveChanges();
         }
         public void RemoveProduct(Order order, int productId) 
         {
             order.Products.Remove(db.Products.Find(productId));
-            db.Update(order);
+            db.SaveChanges();
         }
     }
 }

@@ -57,5 +57,27 @@ namespace ShopApi.Controllers
             _orderService.RemoveProductFromOrder(productId);
             return Ok();
         }
+
+        [HttpPost]
+        public async Task<ActionResult<OrderActive>> BuyOrder (OrderActive orderActive)
+        {
+            if (orderActive == null)
+            {
+                return BadRequest();
+            }
+            _orderService.BuyOrder(orderActive);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<int>> DoneOrder(OrderActive orderActive)
+        {
+            if (orderActive == null)
+            {
+                return BadRequest();
+            }
+            _orderService.DoneOrder(orderActive);
+            return Ok();
+        }
     }
 }
