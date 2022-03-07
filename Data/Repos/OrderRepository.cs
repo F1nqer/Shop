@@ -91,7 +91,7 @@ namespace Data.Repos
         //Delete actions
         public void Delete(int id)
         {
-            Order order = db.Orders.Find(id);
+            var order = db.Orders.Find(id);
             if (order != null)
                 db.Orders.Remove(order);
             db.SaveChanges();

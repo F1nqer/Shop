@@ -20,17 +20,15 @@ namespace Application.Services
 
         public List<ProductForList> GetProducts()
         {
-            List<ProductForList> productsList = new List<ProductForList>();
-            List<Product> products = db.Products.GetAll().ToList();
-            foreach (Product product in products)
-            {
-                ProductForList productForList = new ProductForList();
-                productForList.ProductId = product.Id;
-                productForList.Price = product.Price;
-                productForList.Name = product.Name;
-                productForList.PhotoPath = product.PhotoPath;
-                productsList.Add(productForList);
-            }
+            var products = db.Products.GetAll();
+            var productsList = products
+                            .Select(p => new ProductForList
+                            {
+                                ProductId = p.Id,
+                                Price = p.Price,
+                                Name = p.Name,
+                                PhotoPath = p.PhotoPath
+                            }).ToList();
             return productsList; 
         }
     }

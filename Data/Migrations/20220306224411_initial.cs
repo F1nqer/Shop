@@ -209,22 +209,22 @@ namespace Data.Migrations
 		                    SET NOCOUNT OFF
 	                    END");
             migrationBuilder.Sql(@"INSERT INTO [ShopDB]..Products
-                                   VALUES ('Product1', 2000, '1'),
-                                          ('Product2', 2001, '1'),
-                                          ('Product3', 2002, '1'),
-                                          ('Product4', 2003, '1'),
-                                          ('Product5', 2004, '1'),
-                                          ('Product6', 2005, '1'),
-                                          ('Product6', 2006, '1'),
-                                          ('Product7', 2007, '1'),
-                                          ('Product8', 2008, '1'),
-                                          ('Product9', 2009, '1'),
-                                          ('Product10', 2010, '1'),
-                                          ('Product11', 2011, '1'),
-                                          ('Product12', 2012, '1'),
-                                          ('Product13', 2013, '1'),
-                                          ('Product14', 2014, '1'),
-                                          ('Product15', 2015, '1')");
+                                   VALUES ('Product1', 2000, N'https://api.technodom.kz/f3/api/v1/images/272/272/9505291599902.webp'),
+                                          ('Product2', 2001, N'https://api.technodom.kz/f3/api/v1/images/272/272/136539_1z.webp'),
+                                          ('Product3', 2002, N'https://api.technodom.kz/f3/api/v1/images/272/272/226869_1z.webp'),
+                                          ('Product4', 2003, N'https://api.technodom.kz/f3/api/v1/images/272/272/242414_1.webp'),
+                                          ('Product5', 2004, N'https://api.technodom.kz/f3/api/v1/images/272/272/12005672648734.webp'),
+                                          ('Product6', 2005, N'https://api.technodom.kz/f3/api/v1/images/272/272/234311_1.webp'),
+                                          ('Product6', 2006, N'https://api.technodom.kz/f3/api/v1/images/8282a88b-79e7-11ec-abd6-02420a01346a'),
+                                          ('Product7', 2007, N'https://api.technodom.kz/f3/api/v1/images/126e7520-79de-11ec-abd6-02420a01346a'),
+                                          ('Product8', 2008, N'https://api.technodom.kz/f3/api/v1/images/2698f636-7a99-11ec-abd6-02420a01346a'),
+                                          ('Product9', 2009, N'https://api.technodom.kz/f3/api/v1/images/b969dcc5-7a9a-11ec-abd6-02420a01346a'),
+                                          ('Product10', 2010, N'https://api.technodom.kz/f3/api/v1/images/3d2d4ca0-7a72-11ec-abd6-02420a01346a'),
+                                          ('Product11', 2011, N'https://api.technodom.kz/f3/api/v1/images/3fe4314d-7aa8-11ec-bafd-02420a00008f'),
+                                          ('Product12', 2012, N'https://api.technodom.kz/f3/api/v1/images/d73dd835-7a9d-11ec-abd6-02420a01346a'),
+                                          ('Product13', 2013, N'https://api.technodom.kz/f3/api/v1/images/079cd6c2-7aab-11ec-abd6-02420a01346a'),
+                                          ('Product14', 2014, N'https://api.technodom.kz/f3/api/v1/images/44f8ac50-7cdd-11ec-abd6-02420a01346a'),
+                                          ('Product15', 2015, N'https://api.technodom.kz/f3/api/v1/images/4d44aaee-7ab0-11ec-9574-02420a000099')");
             migrationBuilder.Sql(@"INSERT INTO [ShopDB]..State 
 	                                VALUES (N'Оформляется', 'Active'),
 		                                    (N'Оплачен', 'Buyed'),

@@ -19,13 +19,13 @@ namespace Application.Services
         }
         public OrderActive GetActiveOrder()
         {
-            Order orderModel = db.Orders.GetActive();
-            OrderActive order = new OrderActive();
+            var orderModel = db.Orders.GetActive();
+            var order = new OrderActive();
             order.Address = orderModel.Address;
             order.OrderId = orderModel.Id;
             order.CardNumber = orderModel.CardNumber;
             order.State = orderModel.State.Name;
-            List<ProductForOrder> productsForOrder = orderModel.Products.Select(p => new ProductForOrder
+            var productsForOrder = orderModel.Products.Select(p => new ProductForOrder
             {
                 Name = p.Name,
                 ProductId = p.Id,
@@ -39,84 +39,58 @@ namespace Application.Services
 
         public List<OrderForList> GetOrders()
         {
-            List<OrderForList> getOrders = new List<OrderForList>();
-            List<Order> orders = db.Orders.GetAll().ToList();
-            foreach (Order order in orders)
-            {
-                OrderForList getOrder = new OrderForList();
-                getOrder.OrderId = order.Id;
-                getOrder.Address = order.Address;
-                getOrder.State = order.State.Name;
-                getOrders.Add(getOrder);
-            }
+            var orders = db.Orders.GetAll();
+            var getOrders = orders
+                        .Select(o => new OrderForList 
+                                    { Address = o.Address, 
+                                      OrderId = o.Id, 
+                                      State = o.State.Name })
+                        .ToList();
             return getOrders;
         }
 
         public OrderFull GetOrderById(int OrderId)
         {
-            OrderFull orderFull = new OrderFull();
-
-            Order order = db.Orders.GetById(OrderId);
-            List<OrderProductsHistory> orderProductsHistory = db.Orders.GetOrderProductsHistory(OrderId).ToList();
-            List<OrderHistory> orderHistories = db.Orders.GetOrdersHistory(OrderId).ToList();
-            List<ProductForOrder> products = new List<ProductForOrder>();
-            List<OrderHistoryView> orderHistoryViews = new List<OrderHistoryView>();
-            List<ProductHistory> productHistories = new List<ProductHistory>();
+            var orderFull = new OrderFull();
+            var order = db.Orders.GetById(OrderId);
+            var orderProductsHistory = db.Orders.GetOrderProductsHistory(OrderId).ToList();
+            var orderHistories = db.Orders.GetOrdersHistory(OrderId).ToList();
             orderFull.OrderId = order.Id;
             orderFull.Address = order.Address;
             orderFull.State = order.State.Name;
             orderFull.CardNumber = order.CardNumber;
-            foreach(Product p in order.Products)
-            {
-                ProductForOrder product = new ProductForOrder();
-                product.Count = order.Products.Where(pr => pr.Id == p.Id).Count();
-                if (!orderFull.Products.Exists(o => o.ProductId == p.Id))
-                {
-                    product.ProductId = p.Id;
-                    product.Name = p.Name;
-                    product.PriceSum = order.Products.Where(pr => pr.Id == p.Id).Sum(pr => p.Price);
-                    orderFull.Products.Add(product);
-                }
-            }
-            foreach(OrderHistory oh in orderHistories)
-            {
-                try
-                {
-                    OrderHistoryView ohv = new OrderHistoryView();
-                    ohv.Address = oh.Address;
-                    ohv.OrderId = oh.OrderId;
-                    ohv.CardNumber = oh.CardNumber;
-                    ohv.ChangeAt = oh.PeriodStart;
-                    ohv.State = oh.State.Name;
-                    orderFull.OrdersHistory.Add(ohv);
-                }
-                catch
-                {
-                    break;
-                }
-            }
-            foreach(OrderProductsHistory oph in orderProductsHistory) 
-            {
-                try
-                {
-                    ProductHistory product = new ProductHistory();
-                    product.ProductId = oph.ProductId;
-                    product.Action = oph.Action;
-                    product.Name = oph.Product.Name;
-                    orderFull.ProductsHistory.Add(product);
-                }
-                catch
-                {
-                    break;
-                }
-            }
+            orderFull.Products = order.Products
+                                        .Select(p => new ProductForOrder
+                                        {
+                                            Name = p.Name,
+                                            ProductId = p.Id,
+                                            PriceSum = order.Products.Where(pr => pr.Id == p.Id).Sum(pr => p.Price),
+                                            Count = order.Products.Where(pr => pr.Id == p.Id).Count()
+                                        }).Distinct().ToList();
+            orderFull.OrdersHistory = orderHistories
+                                        .Select(oh => new OrderHistoryView
+                                        {
+                                            Address = oh.Address,
+                                            OrderId = oh.OrderId,
+                                            CardNumber = oh.CardNumber,
+                                            ChangeAt = oh.PeriodStart,
+                                            State = oh.State.Name
+                                        }).ToList();
+            orderFull.ProductsHistory = orderProductsHistory
+                                        .Select(oph => new ProductHistory
+                                        {
+                                            ProductId = oph.ProductId,
+                                            Action = oph.Action,
+                                            Name = oph.Product.Name
+                                        })
+                                        .ToList();
             return orderFull;
 
             
         }
         public void BuyOrder(OrderActive orderActive)
         {
-            Order order = db.Orders.GetById(orderActive.OrderId);
+            var order = db.Orders.GetById(orderActive.OrderId);
             order.CardNumber = orderActive.CardNumber;
             order.Address = orderActive.Address;
             order.State = db.Orders.GetOrderStates().Where(s => s.Code == "Buyed").First();
@@ -125,7 +99,7 @@ namespace Application.Services
 
         public void DoneOrder(OrderActive orderActive)
         {
-            Order order = db.Orders.GetById(orderActive.OrderId);
+            var order = db.Orders.GetById(orderActive.OrderId);
             order.CardNumber = orderActive.CardNumber;
             order.Address = orderActive.Address;
             order.State = db.Orders.GetOrderStates().Where(s => s.Code == "Done").First();
@@ -133,14 +107,14 @@ namespace Application.Services
         }
         public void AddProductToOrder(int productId)
         {
-            Order order = db.Orders.GetActive();
+            var order = db.Orders.GetActive();
 
             db.Orders.AddProduct(order, productId);
             db.Save();
         }
         public void RemoveProductFromOrder(int productId)
         {
-            Order order = db.Orders.GetActive();
+            var order = db.Orders.GetActive();
 
             db.Orders.RemoveProduct(order, productId);
             db.Save();
