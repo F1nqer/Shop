@@ -2,6 +2,7 @@
 using Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShopApi.Controllers
 {
@@ -15,9 +16,9 @@ namespace ShopApi.Controllers
             _productService = productService;
         }
         [HttpGet]
-        public List<ProductForList> GetAll()
+        public async Task<List<ProductForList>> GetAll()
         {
-            return _productService.GetProducts();
+            return await _productService.GetProductsAsync();
         }
     }
 }

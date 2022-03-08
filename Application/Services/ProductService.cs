@@ -31,5 +31,19 @@ namespace Application.Services
                             }).ToList();
             return productsList; 
         }
+
+        public async Task<List<ProductForList>> GetProductsAsync()
+        {
+            var products = await db.Products.GetAllAsync();
+            var productsList = products
+                            .Select(p => new ProductForList
+                            {
+                                ProductId = p.Id,
+                                Price = p.Price,
+                                Name = p.Name,
+                                PhotoPath = p.PhotoPath
+                            }).ToList();
+            return productsList;
+        }
     }
 }

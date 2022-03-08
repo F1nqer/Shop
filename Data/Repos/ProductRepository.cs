@@ -24,6 +24,11 @@ namespace Data.Repos
             return db.Products;
         }
 
+        public async Task<List<Product>> GetAllAsync()
+        {
+            return await db.Products.ToListAsync();
+        }
+
         public Product GetById(int id)
         {
             return db.Products.Find(id);
