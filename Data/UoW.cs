@@ -1,14 +1,10 @@
 ﻿using Data.EF;
 using Data.Repos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data
 {
-    public class UoW: IDisposable
+    public class UoW : IDisposable
     {
         private OrderContext db;
         private ProductRepository productRepository;

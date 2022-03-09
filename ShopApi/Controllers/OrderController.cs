@@ -1,6 +1,5 @@
 ﻿using Application.Services;
 using Application.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace ShopApi.Controllers
         {
             _orderService = orderService;
         }
-        [HttpGet]
+        [HttpGet()]
         public OrderActive GetActiveOrder()
         {
             return _orderService.GetActiveOrder();
@@ -59,7 +58,7 @@ namespace ShopApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> BuyOrder (OrderActive orderActive)
+        public async Task<ActionResult> BuyOrder(OrderActive orderActive)
         {
             if (orderActive == null)
             {

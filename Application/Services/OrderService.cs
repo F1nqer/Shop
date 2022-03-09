@@ -1,12 +1,8 @@
 ﻿using Application.ViewModels;
 using Data;
 using Data.EF;
-using Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -33,18 +29,20 @@ namespace Application.Services
                 Count = orderModel.Products.Where(pr => pr.Id == p.Id).Count()
             }).Distinct().ToList();
             order.Products = productsForOrder;
-            
-            return order; 
+
+            return order;
         }
 
         public List<OrderForList> GetOrders()
         {
             var orders = db.Orders.GetAll();
             var getOrders = orders
-                        .Select(o => new OrderForList 
-                                    { Address = o.Address, 
-                                      OrderId = o.Id, 
-                                      State = o.State.Name })
+                        .Select(o => new OrderForList
+                        {
+                            Address = o.Address,
+                            OrderId = o.Id,
+                            State = o.State.Name
+                        })
                         .ToList();
             return getOrders;
         }
@@ -86,7 +84,7 @@ namespace Application.Services
                                         .ToList();
             return orderFull;
 
-            
+
         }
         public void BuyOrder(OrderActive orderActive)
         {

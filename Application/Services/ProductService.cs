@@ -1,11 +1,8 @@
 ﻿using Application.ViewModels;
 using Data;
 using Data.EF;
-using Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services
@@ -29,7 +26,7 @@ namespace Application.Services
                                 Name = p.Name,
                                 PhotoPath = p.PhotoPath
                             }).ToList();
-            return productsList; 
+            return productsList;
         }
 
         public async Task<List<ProductForList>> GetProductsAsync()

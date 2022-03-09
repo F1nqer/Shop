@@ -2,15 +2,11 @@
 using Domain;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Repos
 {
-    public class OrderRepository: IRepository <Order>
+    public class OrderRepository : IRepository<Order>
     {
         private OrderContext db;
 
@@ -35,8 +31,8 @@ namespace Data.Repos
                 order = db.Orders.Include(o => o.Products).Include(o => o.State).Where(o => o.State.Code == "Active").First();
                 return order;
             }
-            catch 
-            { 
+            catch
+            {
                 db.Orders.Add(new Order { State = db.State.Find(1), Address = null, CardNumber = 0, StateId = 1 });
                 db.SaveChanges();
                 return db.Orders.Include(o => o.Products).Include(o => o.State).Where(o => o.State.Code == "Active").First();
@@ -69,7 +65,7 @@ namespace Data.Repos
         {
             db.Orders.Add(order);
         }
-        
+
         public void AddProduct(Order order, int productId)
         {
             order.Products.Add(db.Products.Find(productId));
@@ -96,7 +92,7 @@ namespace Data.Repos
                 db.Orders.Remove(order);
             db.SaveChanges();
         }
-        public void RemoveProduct(Order order, int productId) 
+        public void RemoveProduct(Order order, int productId)
         {
             order.Products.Remove(db.Products.Find(productId));
             db.SaveChanges();
